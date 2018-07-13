@@ -2,6 +2,7 @@
 
 Vehicle detection and tracking in a video-feed.
 
+<img src="output_images/sample_detection.gif?raw=true">
 
 ## Overview
 
