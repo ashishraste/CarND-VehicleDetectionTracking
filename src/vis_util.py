@@ -51,11 +51,11 @@ def display_car_detections():
 
     for i in range(len(test_images)):
         display_images(test_images[i], detected_car_images[i])
+        save_image(detected_car_images[i], '../output_images/car_detections'+str(i)+'.png')
 
 
 def display_car_heatmap(img):
-    # detected_windows = search_car_windows(img, svc, FeatureParams(), scaler)
-    detected_windows = find_cars(img, svc, scaler, FeatureParams())
+    detected_windows = search_car_windows(img, svc, FeatureParams(), scaler)
     # Add heat to each box in box list
     heat = np.zeros_like(img[:, :, 0]).astype(np.float)
     heat = add_heat(heat, detected_windows)
@@ -67,8 +67,18 @@ def display_car_heatmap(img):
     print(labels[1], 'cars found')
     plt.axis('off')
     plt.imshow(labels[0], cmap='gray')
-    plt.imshow(draw_labeled_bboxes(img, labels))
     plt.show()
+    save_image(labels[0], '../output_images/car_heatmap6.png', cmap_gray=True)
+    return heatmap
+
+
+def display_car_bboxes(img, heatmap):
+    labels = label(heatmap)
+    bbox_img = draw_labeled_bboxes(img, labels)
+    plt.axis('off')
+    plt.imshow(bbox_img)
+    plt.show()
+    save_image(bbox_img, '../output_images/car_bboxes6.png')
 
 
 
@@ -81,14 +91,16 @@ if __name__ == '__main__':
     non_vehicle_img = non_vehicles[rand_idx2]
 
     # Display sample vehicle and non-vehicle images from the dataset.
-    # display_images(vehicle_img, non_vehicle_img, 'Sample vehicle image', 'Sample non-vehicle image')
+    display_images(vehicle_img, non_vehicle_img, 'Sample vehicle image', 'Sample non-vehicle image')
 
     # Display HOG features.
-    # display_hog_features(vehicle_img)
-    # display_hog_features(non_vehicle_img)
+    display_hog_features(vehicle_img)
+    display_hog_features(non_vehicle_img)
 
     # Display car detections.
-    # display_car_detections()
+    display_car_detections()
 
     # Display detected car images' heatmap.
-    display_car_heatmap(load_image('../test_images/test6.jpg'))
+    test_img = load_image('../test_images/test6.jpg')
+    heatmap = display_car_heatmap(test_img)
+    display_car_bboxes(test_img, heatmap)

@@ -12,9 +12,8 @@ def add_heat(heatmap, bbox_list):
         # Add += 1 for all pixels inside each bbox
         # Assuming each "box" takes the form ((x1, y1), (x2, y2))
         heatmap[box[0][1]:box[1][1], box[0][0]:box[1][0]] += 1
-
     # Return updated heatmap
-    return heatmap  # Iterate through list of bounding-boxes
+    return heatmap
 
 
 def apply_threshold(heatmap, threshold):
@@ -40,18 +39,11 @@ def draw_labeled_bboxes(img, labels):
     return img
 
 
-def convert_color(img, conv='RGB2YCrCb'):
-    if conv == 'RGB2YCrCb':
-        return cv2.cvtColor(img, cv2.COLOR_RGB2YCrCb)
-    if conv == 'BGR2YCrCb':
-        return cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-    if conv == 'RGB2LUV':
-        return cv2.cvtColor(img, cv2.COLOR_RGB2LUV)
-
-
-# Define a function to return HOG features and visualization
 def get_hog_features(img, orient, pix_per_cell, cell_per_block,
                      vis=False, feature_vec=True):
+    """
+    Returns HOG features. Optionally, an image representing the HOG features is also returned.
+    """
     # Call with two outputs if vis==True
     if vis:
         features, hog_image = hog(img, orientations=orient,
@@ -215,7 +207,7 @@ def single_img_features(img, params, spatial_feat=True, hist_feat=True, hog_feat
     return np.concatenate(img_features)
 
 
-def find_cars(img, svc, scaler, params, y_start_stop=[400,700], window=96, cells_per_step=1, scale=1.5):
+def find_cars(img, svc, scaler, params, y_start_stop=[400,500], window=96, cells_per_step=1, scale=1.5):
     # Extract classifier's feature-parameters.
     color_space = params.color_space
     orient = params.orient
@@ -398,3 +390,9 @@ def load_image(img_path):
     :param img_path: Image path where the image file could be found.
     """
     return cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
+
+
+def save_image(img, img_path, cmap_gray=False):
+    if cmap_gray:
+        plt.set_cmap('gray')
+    plt.imsave(img_path, img)
