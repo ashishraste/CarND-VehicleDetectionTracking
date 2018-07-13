@@ -144,7 +144,7 @@ and `search_car_windows()` searches for cars in a given window.
 Window size chosen is 96x96 pixels as this was found to be a sufficient size for
 finding cars. To reduce the number of false-positives occuring from pixels
 falling outside the road, the search area is limited to [100,1180] along
-x-dimension and [400,700] along y-dimension. Overlap percentage for the sliding
+x-dimension and [400,500] along y-dimension. Overlap percentage for the sliding
 windows is set to 70%. This window-overlap makes use of the large number of (positive)
 features found around cars, hence reliably increasing the probability of its
 detection.
