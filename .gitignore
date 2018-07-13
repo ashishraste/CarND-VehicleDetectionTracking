@@ -1,0 +1,9 @@
+# IDE files
+.idea
+src/__pycache__
+
+# Dataset folder
+training_images
+
+# Pickled image data
+# image_data.p
