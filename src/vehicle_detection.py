@@ -3,6 +3,11 @@ from moviepy.editor import VideoFileClip
 from vehicle_classifier import FeatureParams
 import matplotlib.pyplot as plt
 from scipy.ndimage.measurements import label
+from pathlib import Path
+
+model_dir = Path("../")
+test_images_dir = Path("../test_images")
+output_dir = Path("../")
 
 class HotWindows():
     def __init__(self, num_frames=30):
@@ -50,7 +55,7 @@ def vehicle_detection_pipeline(src_img):
 
 def run_video_pipeline(input_video_file, output_video_file):
     global svc, scaler
-    with open('../model.p', 'rb') as file:
+    with open(str(model_dir/'model.p'), 'rb') as file:
         model = pickle.load(file)
     svc = model['classifier']
     scaler = model['scaler']
@@ -61,10 +66,10 @@ def run_video_pipeline(input_video_file, output_video_file):
 
 
 if __name__ == '__main__':
-    run_video_pipeline('../project_video.mp4', '../detected_vehicles.mp4')
+    run_video_pipeline(str(output_dir/'project_video.mp4'), str(output_dir/'detected_vehicles.mp4'))
 
-    # with open('../model.p', 'rb') as file:
+    # with open(str(model_dir/'model.p'), 'rb') as file:
     #     model = pickle.load(file)
     # svc = model['classifier']
     # scaler = model['scaler']
-    # vehicle_detection_pipeline(load_image('../test_images/test6.jpg'))
+    # vehicle_detection_pipeline(load_image(str(test_images_dir/'test6.jpg')))

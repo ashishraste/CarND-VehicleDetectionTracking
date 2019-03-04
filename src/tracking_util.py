@@ -4,7 +4,9 @@ import cv2
 from skimage.feature import hog
 import pickle
 from tqdm import tqdm
+from pathlib import Path
 
+image_data_dir = Path("../")
 
 def add_heat(heatmap, bbox_list):
     # Iterate through list of bounding-boxes
@@ -379,7 +381,7 @@ def draw_boxes(img, bboxes, color=(0, 0, 255), thick=6):
 
 
 def load_dataset():
-    with open('../image_data.p', 'rb') as file:
+    with open(str(image_data_dir/"image_data.p"), 'rb') as file:
         image_data = pickle.load(file)
     return image_data
 

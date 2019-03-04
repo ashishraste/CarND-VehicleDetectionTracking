@@ -3,12 +3,14 @@ from sklearn.svm import LinearSVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import time
+from pathlib import Path
 
 # Load positive and negative features.
 images = load_dataset()
 cars = images['vehicles']
 notcars = images['non_vehicles']
 
+model_dir = Path("../")
 
 class FeatureParams():
     """
@@ -72,7 +74,7 @@ def train():
 
     # Save the classifier model.
     model = {'classifier': svc, 'scaler': X_scaler}
-    pickle.dump(model, open('../model.p', 'wb'))
+    pickle.dump(model, open(str(model_dir/'model.p'), 'wb'))
 
 
 if __name__ == '__main__':

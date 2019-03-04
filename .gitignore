@@ -1,6 +1,7 @@
 # IDE files
 .idea
 src/__pycache__
+test_images/.DS_Store
 
 # Dataset folder
 training_images

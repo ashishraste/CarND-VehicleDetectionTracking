@@ -5,12 +5,17 @@ from vehicle_classifier import FeatureParams
 import glob
 import pickle
 from scipy.ndimage.measurements import label
+from pathlib import Path
 
 image_data = load_dataset()
 vehicles = image_data['vehicles']
 non_vehicles = image_data['non_vehicles']
 
-with open('../model.p', 'rb') as file:
+model_dir = Path("../")
+test_images_dir = Path("test_images")
+output_images_dir = Path("output_images")
+
+with open(str(model_dir/'model.p'), 'rb') as file:
     model = pickle.load(file)
 svc = model['classifier']
 scaler = model['scaler']
@@ -42,7 +47,7 @@ def display_hog_features(img):
 
 
 def display_car_detections():
-    test_images = list(map(lambda img_path: load_image(img_path), glob.glob('../test_images/*.jpg')))
+    test_images = list(map(lambda img_path: load_image(img_path), glob.glob(str(test_images_dir/'*.jpg'))))
     detected_car_images = list(
         map(
             lambda test_img: draw_boxes(
@@ -51,7 +56,7 @@ def display_car_detections():
 
     for i in range(len(test_images)):
         display_images(test_images[i], detected_car_images[i])
-        save_image(detected_car_images[i], '../output_images/car_detections'+str(i)+'.png')
+        save_image(detected_car_images[i], str(output_images_dir/'car_detections'+str(i)+'.png'))
 
 
 def display_car_heatmap(img):
@@ -68,7 +73,7 @@ def display_car_heatmap(img):
     plt.axis('off')
     plt.imshow(labels[0], cmap='gray')
     plt.show()
-    save_image(labels[0], '../output_images/car_heatmap6.png', cmap_gray=True)
+    save_image(labels[0], str(output_images_dir/'car_heatmap6.png'), cmap_gray=True)
     return heatmap
 
 
@@ -78,7 +83,7 @@ def display_car_bboxes(img, heatmap):
     plt.axis('off')
     plt.imshow(bbox_img)
     plt.show()
-    save_image(bbox_img, '../output_images/car_bboxes6.png')
+    save_image(bbox_img, str(output_images_dir/'car_bboxes6.png'))
 
 
 
@@ -101,6 +106,6 @@ if __name__ == '__main__':
     display_car_detections()
 
     # Display detected car images' heatmap.
-    test_img = load_image('../test_images/test6.jpg')
+    test_img = load_image(str(test_images_dir/'test6.jpg'))
     heatmap = display_car_heatmap(test_img)
     display_car_bboxes(test_img, heatmap)
