@@ -27,7 +27,7 @@ and color-histogram.
 4. Numpy
 5. Matplotlib
 6. Pickle
-
+7. Pathlib
 
 ## Directory Layout
 * src : Contains the following source files.
